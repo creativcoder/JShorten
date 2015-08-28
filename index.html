@@ -1,0 +1,97 @@
+<html>
+<head>
+	<title>Vanilla ShortenerJS</title>
+	<link rel="stylesheet" type="text/css" href="assets/style.css">
+	
+</head>
+<body >
+<div class="container">
+
+<h1>A Simple URL shortener using Plain JS</h1>
+
+<form id="url-form">
+<input id="addr" type="url" name="url-field" required/>
+<button onclick="shorten()">Shorten</button>
+</form>
+
+<br>
+
+<div id="shortened">
+<a onclick="javascript:red()" id="url-anchor" href=""></a>
+</div>
+
+</div>
+
+<script type="text/javascript">
+
+var RANGE = 999999;
+var locationRef = window.location;
+var StorageRef = window.localStorage;
+
+
+document.getElementById('url-form').onsubmit = function(event){
+event.preventDefault();
+};
+
+function redirectWithout() {
+	var raw_id =  locationRef.search.slice(locationRef.search.indexOf('=')+1);
+	locationRef.replace(StorageRef.getItem(raw_id));
+}
+
+// for urls with query parameters of already shortened urls
+if (locationRef.search !== "")
+{
+	redirectWithout();
+}
+
+else {
+ // for shortening the urls
+function shorten() {
+
+	var url = document.getElementById('addr').value;
+	var pat = /(\w+):\/\/[0-9A-Za-z]+\.\w+/g;
+	if(!pat.test(url) || url === ""){alert("Enter a valid url");return;}
+
+	var existing_id = null;
+	var shortId = Math.floor(Math.random()*RANGE);
+
+	for(var i=0;i<StorageRef.length;i++)
+
+			{if(url===StorageRef.getItem(StorageRef.key(i)))
+				{existing_id = StorageRef.key(i);
+				break;}
+			}
+
+			if(existing_id!==null){
+				createAnchor(existing_id);
+			}
+			else {
+				var new_shortId = Math.floor(Math.random()*RANGE);
+				StorageRef.setItem(new_shortId,url);
+				createAnchor(new_shortId);
+			}
+
+}
+
+function createAnchor(id){
+	var anchor = document.getElementById('url-anchor');
+	anchor.href = locationRef.origin+locationRef.pathname+'?u='+id;
+	anchor.text = 'Your Shortened Url';	
+}
+
+
+document.getElementById('url-anchor').onclick = function red(event)
+{
+
+	event.preventDefault();
+	var u = document.getElementById('url-anchor');
+
+	var id_new = u.href.slice(u.href.indexOf('=')+1);
+	locationRef.replace(StorageRef.getItem(id_new));
+};
+
+}
+
+</script>
+</body>
+</html>
