@@ -1,0 +1,25 @@
+{
+  "name": "jshorten",
+  "version": "1.0.0",
+  "description": "A simple URL shortener using mongo_db as the backend",
+  "main": "index.html",
+  "scripts": {
+    "test": "python -m \"SimpleHTTPServer\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/creativcoder/JShorten.git"
+  },
+  "keywords": [
+    "jshorten",
+    "javascript",
+    "url",
+    "shortener"
+  ],
+  "author": "Rahul Sharma",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/creativcoder/JShorten/issues"
+  },
+  "homepage": "https://github.com/creativcoder/JShorten#readme"
+}
